@@ -1,9 +1,7 @@
-import Menu from './Menu'
-import Home from './Home'
-import Profile from './Profile'
+import AddEmployee from './AddEmployee'
+import EmployeeList from './EmployeeList'
 
 export {
-  Menu,
-  Home,
-  Profile
+	AddEmployee,
+	EmployeeList
 }
