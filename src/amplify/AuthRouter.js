@@ -15,9 +15,7 @@ import * as Components from './components'
 import AmplifyStore from './AmplifyStore'
 import AuthView from './AuthView'
 
-import { Auth, Logger } from 'aws-amplify'
-
-const logger = new Logger('AuthRouter');
+import { Auth } from 'aws-amplify'
 
 const AuthRouter = {
   path: '/auth',
@@ -58,10 +56,8 @@ const AuthRouter = {
 }
 
 const AuthFilter = (to, from, next) => {
-  logger.debug('before routing ', to, from)
   Auth.currentAuthenticatedUser()
     .then(user => {
-      logger.debug('...has user', user)
       AmplifyStore.commit('setUser', user)
       Auth.currentCredentials()
         .then(credentials => {
@@ -71,7 +67,6 @@ const AuthFilter = (to, from, next) => {
       next()
     })
     .catch(err => {
-      logger.debug('...no user', err)
       AmplifyStore.commit('setUser', null)
       if (!to.name.startsWith('auth')) {
         next('/auth/signIn')
