@@ -41,12 +41,12 @@ const AuthRouter = {
       component: Components.ForgotPassword
     }
   ]
-}
+};
 
 const AuthFilter = (to, from, next) => {
   Auth.currentAuthenticatedUser()
     .then(user => {
-      AmplifyStore.commit('setUser', user)
+      AmplifyStore.commit('setUser', user);
       Auth.currentCredentials()
         .then(credentials => {
           AmplifyStore.commit('setUserId', credentials.identityId)
@@ -55,14 +55,14 @@ const AuthFilter = (to, from, next) => {
       next()
     })
     .catch(err => {
-      AmplifyStore.commit('setUser', null)
+      AmplifyStore.commit('setUser', null);
       if (!to.name.startsWith('auth')) {
         next('/auth/signIn')
       } else {
         next()
       }
     })
-}
+};
 
 export default AuthRouter
 export { AuthFilter }

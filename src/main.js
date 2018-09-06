@@ -7,14 +7,14 @@ import aws_exports from './aws-exports'
 
 Vue.config.productionTip = false
 
-Amplify.configure(aws_exports)
-Amplify.Logger.LOG_LEVEL = 'DEBUG'
+Amplify.configure(aws_exports);
+Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
-const logger = new Logger('main')
+const logger = new Logger('main');
 
 Auth.currentUserInfo()
   .then(user => logger.debug(user))
-  .catch(err => logger.debug(err))
+  .catch(err => logger.debug(err));
 
 /* eslint-disable no-new */
 new Vue({
@@ -22,4 +22,4 @@ new Vue({
   router: router,
   template: '<App/>',
   components: { App }
-})
+});

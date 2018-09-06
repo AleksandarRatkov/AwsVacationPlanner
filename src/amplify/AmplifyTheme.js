@@ -111,6 +111,6 @@ const AppTheme = {
       fontSize: '0.8em'
     }
   }
-}
+};
 
 export default AppTheme

@@ -1,26 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {EmployeeList, AddEmployee} from '@/components'
+import {VacationList, AddVacation} from '@/components'
 
 import {AuthRouter, AuthFilter} from '../amplify'
 
-Vue.use(Router)
+Vue.use(Router);
 
 const router = new Router({
   routes: [
 	  {
 		  path: '/',
-		  name: 'EmployeeList',
-		  component: EmployeeList
+		  name: 'VacationList',
+		  component: VacationList
 	  },
 	  {
 		  path: '/add/:id?',
-		  name: 'AddEmployee',
-		  component: AddEmployee,
+		  name: 'AddVacation',
+		  component: AddVacation,
 	  },
 	  AuthRouter
   ]
-})
+});
 
 router.beforeEach(AuthFilter);
 

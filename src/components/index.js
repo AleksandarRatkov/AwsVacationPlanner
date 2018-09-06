@@ -1,7 +1,7 @@
-import AddEmployee from './AddEmployee'
-import EmployeeList from './EmployeeList'
+import AddVacation from './AddVacation'
+import VacationList from './VacationList'
 
 export {
-	AddEmployee,
-	EmployeeList
+	AddVacation,
+	VacationList
 }
