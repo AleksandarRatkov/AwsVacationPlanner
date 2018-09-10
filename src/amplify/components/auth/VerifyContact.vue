@@ -55,14 +55,14 @@ export default {
   },
   computed: {
     unverified() {
-      const verification = AmplifyStore.state.userVerification
+      const verification = AmplifyStore.state.userVerification;
       return verification && verification.unverified
         ? verification.unverified
         : []
     }
   },
   created: function() {
-    const verification = AmplifyStore.state.userVerification
+    const verification = AmplifyStore.state.userVerification;
     if (!verification) {
       this.$router.push('/')
     }

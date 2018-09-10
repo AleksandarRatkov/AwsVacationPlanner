@@ -31,7 +31,7 @@
 			<md-app-content>
 				<div class="container">
 					<div>
-						<h3>Previous vacations </h3>
+						<h3>Previous vacations for user {{username}} with id {{userId}}</h3>
 						<br>
 					</div>
 					<md-table v-model="vacations" md-sort="name" md-sort-order="asc" md-card>
@@ -53,6 +53,7 @@
 
 <script>
 	import Vue from 'vue'
+	import {Auth} from 'aws-amplify'
 
 	Vue.use(require('vue-moment'));
 
@@ -68,7 +69,9 @@
 					description: ""
 				},
 				errors: [],
-				menuVisible: false
+				menuVisible: false,
+				username: '',
+				userId: ''
 			};
 		},
 		filters: {
@@ -84,6 +87,7 @@
 		created()
 		{
 			this.getAllVacations();
+			this.getUsername();
 		},
 		methods: {
 			getAllVacations: function () {
@@ -103,7 +107,16 @@
 				this.$router.push(path);
 			},
 			signOut: function () {
-				this.$router.push('/auth/signOut')
+				this.$router.push('/auth/signOut1')
+			},
+			getUsername: function () {
+				Auth.currentAuthenticatedUser()
+					.then(info => {
+						console.log(info);
+						this.username = info.username;
+						this.userId = info.id;
+					})
+					.catch(err => console.log('get current credentials err', err));
 			}
 		}
 	};
