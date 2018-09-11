@@ -31,7 +31,7 @@
 			<md-app-content>
 				<div class="container">
 					<div>
-						<h3>Previous vacations for user {{username}} with id {{userId}}</h3>
+						<h3>Previous vacations for user: {{username}}</h3>
 						<br>
 					</div>
 					<md-table v-model="vacations" md-sort="name" md-sort-order="asc" md-card>
@@ -66,12 +66,12 @@
 					startDate: null,
 					endDate: null,
 					numberOfDays: "",
-					description: ""
+					description: "",
+					userId: ''
 				},
 				errors: [],
 				menuVisible: false,
-				username: '',
-				userId: ''
+				username: ''
 			};
 		},
 		filters: {
@@ -86,12 +86,11 @@
 		},
 		created()
 		{
-			this.getAllVacations();
-			this.getUsername();
+			this.getUserInfo();
 		},
 		methods: {
-			getAllVacations: function () {
-				this.$http.get('https://sjshl4kukb.execute-api.eu-central-1.amazonaws.com/dev/vacation')
+			getAllVacations: function (userId) {
+				this.$http.get('https://pczbc7mi7h.execute-api.eu-central-1.amazonaws.com/dev/vacation/user/' + userId)
 					.then((response) => {
 						this.vacations = response.data;
 					})
@@ -109,12 +108,12 @@
 			signOut: function () {
 				this.$router.push('/auth/signOut1')
 			},
-			getUsername: function () {
-				Auth.currentAuthenticatedUser()
+			getUserInfo: function () {
+				Auth.currentUserInfo()
 					.then(info => {
-						console.log(info);
 						this.username = info.username;
-						this.userId = info.id;
+						this.vacation.userId = info.id;
+						this.getAllVacations(this.vacation.userId);
 					})
 					.catch(err => console.log('get current credentials err', err));
 			}

@@ -1,0 +1,89 @@
+service: planner-vacation
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-central-1
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+functions:
+  create:
+    handler: vacation/create.create
+    events:
+      - http:
+          path: vacation
+          method: post
+          cors: true
+
+  list:
+    handler: vacation/list.list
+    events:
+      - http:
+          path: vacation
+          method: get
+          cors: true
+
+  get:
+    handler: vacation/get.get
+    events:
+      - http:
+          path: vacation/{id}
+          method: get
+          cors: true
+
+  getByUserId:
+      handler: vacation/getByUserId.getByUserId
+      events:
+        - http:
+            path: vacation/user/{userId}
+            method: get
+            cors: true
+
+  update:
+    handler: vacation/update.update
+    events:
+      - http:
+          path: vacation/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: vacation/delete.delete
+    events:
+      - http:
+          path: vacation/{id}
+          method: delete
+          cors: true
+
+resources:
+  Resources:
+    VacationsTable:
+      Type: AWS::DynamoDB::Table
+      # DeletionPolicy: Retain # Keeps around the DynamoDB resource when we redeploy/destroy
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+          -
+            AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
