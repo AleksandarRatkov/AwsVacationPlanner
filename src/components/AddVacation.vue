@@ -82,6 +82,8 @@
 </template>
 
 <script>
+	import {Auth} from 'aws-amplify'
+
 	export default {
 		data()
 		{
@@ -90,7 +92,8 @@
 					startDate: null,
 					endDate: null,
 					numberOfDays: "",
-					description: ""
+					description: "",
+					userId: ''
 				},
 				vacationId: this.$route.params.id,
 				errors: [],
@@ -103,10 +106,11 @@
 			{
 				this.getVacation(this.vacationId);
 			}
+			this.getUserInfo();
 		},
 		methods: {
 			saveVacation: function () {
-				this.$http.post('https://sjshl4kukb.execute-api.eu-central-1.amazonaws.com/dev/vacation', this.vacation)
+				this.$http.post('https://pczbc7mi7h.execute-api.eu-central-1.amazonaws.com/dev/vacation', this.vacation)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.$router.push('/')
@@ -115,7 +119,7 @@
 					});
 			},
 			getVacation: function (vacationId) {
-				this.$http.get('https://sjshl4kukb.execute-api.eu-central-1.amazonaws.com/dev/vacation/' + vacationId)
+				this.$http.get('https://pczbc7mi7h.execute-api.eu-central-1.amazonaws.com/dev/vacation/' + vacationId)
 					.then((response) => {
 						this.vacation = response.data;
 					})
@@ -124,8 +128,7 @@
 					});
 			},
 			editVacation: function (vacationId) {
-				this.$http.put(
-					'https://sjshl4kukb.execute-api.eu-central-1.amazonaws.com/dev/vacation/' + vacationId, this.vacation)
+				this.$http.put('https://pczbc7mi7h.execute-api.eu-central-1.amazonaws.com/dev/vacation/' + vacationId, this.vacation)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.$router.push('/')
@@ -139,6 +142,13 @@
 			},
 			signOut: function () {
 				this.$router.push('/auth/signOut')
+			},
+			getUserInfo: function () {
+				Auth.currentUserInfo()
+					.then(info => {
+						this.vacation.userId = info.id;
+					})
+					.catch(err => console.log('get current credentials err', err));
 			}
 		}
 	};
