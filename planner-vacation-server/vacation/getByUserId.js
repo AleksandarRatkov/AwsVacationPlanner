@@ -11,19 +11,14 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports.getByUserId = (event, context, callback) => {
 	const params = {
 		TableName: process.env.DYNAMODB_TABLE,
-		FilterExpression: "#userId =:userId",
-		ExpressionAttributeNames:{
-			"#userId": "userId"
-		},
+		KeyConditionExpression: "userId = :userId",
 		ExpressionAttributeValues: {
-			":userId": {
-				S : "eu-central-1:6d68b91f-cec2-4547-8e72-daeba0e8526d"
-			}
+			":userId": event.pathParameters.userId
 		}
 	};
 
 	// fetch vacation from the database
-	dynamoDb.scan(params, (error, result) => {
+	dynamoDb.query(params, (error, result) => {
 		// handle potential errors
 		if (error)
 		{
@@ -32,7 +27,6 @@ module.exports.getByUserId = (event, context, callback) => {
 			return;
 		}
 
-		console.log('Result nadjen je: ' + result);
 		// create a response
 		const response = {
 			statusCode: 200,
@@ -40,7 +34,7 @@ module.exports.getByUserId = (event, context, callback) => {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Credentials': true,
 			},
-			body: JSON.stringify(result.Item),
+			body: JSON.stringify(result.Items),
 		};
 		callback(null, response);
 	});

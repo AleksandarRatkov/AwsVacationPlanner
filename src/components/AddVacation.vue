@@ -93,24 +93,21 @@
 					endDate: null,
 					numberOfDays: "",
 					description: "",
-					userId: ''
+					userId: '',
+					isApproved: false
 				},
-				vacationId: this.$route.params.id,
+				vacationId: this.$route.params.vacationId,
 				errors: [],
 				menuVisible: false
 			};
 		},
 		created()
 		{
-			if (this.vacationId)
-			{
-				this.getVacation(this.vacationId);
-			}
 			this.getUserInfo();
 		},
 		methods: {
 			saveVacation: function () {
-				this.$http.post('https://pczbc7mi7h.execute-api.eu-central-1.amazonaws.com/dev/vacation', this.vacation)
+				this.$http.post('https://1edfxw2xv9.execute-api.eu-central-1.amazonaws.com/dev/vacation', this.vacation)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.$router.push('/')
@@ -118,17 +115,17 @@
 						console.log('Error!:', response.data);
 					});
 			},
-			getVacation: function (vacationId) {
-				this.$http.get('https://pczbc7mi7h.execute-api.eu-central-1.amazonaws.com/dev/vacation/' + vacationId)
+			getVacation: function (userId, vacationId) {
+				this.$http.get('https://1edfxw2xv9.execute-api.eu-central-1.amazonaws.com/dev/user/' + userId + '/vacation/' + vacationId)
 					.then((response) => {
-						this.vacation = response.data;
+						this.vacation = response.data[0];
 					})
 					.catch((e) => {
 						this.errors.push(e);
 					});
 			},
 			editVacation: function (vacationId) {
-				this.$http.put('https://pczbc7mi7h.execute-api.eu-central-1.amazonaws.com/dev/vacation/' + vacationId, this.vacation)
+				this.$http.put('https://1edfxw2xv9.execute-api.eu-central-1.amazonaws.com/dev/vacation/' + vacationId, this.vacation)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.$router.push('/')
@@ -141,12 +138,16 @@
 				this.$router.push(path);
 			},
 			signOut: function () {
-				this.$router.push('/auth/signOut')
+				this.$router.push('/auth/signOut1')
 			},
 			getUserInfo: function () {
 				Auth.currentUserInfo()
 					.then(info => {
 						this.vacation.userId = info.id;
+						if (this.vacation.userId && this.vacationId)
+						{
+							this.getVacation(this.vacation.userId, this.vacationId);
+						}
 					})
 					.catch(err => console.log('get current credentials err', err));
 			}

@@ -14,7 +14,7 @@ const router = new Router({
 		  component: VacationList
 	  },
 	  {
-		  path: '/add/:id?',
+		  path: '/add/:vacationId?',
 		  name: 'AddVacation',
 		  component: AddVacation,
 	  },

@@ -15,12 +15,13 @@ module.exports.create = (event, context, callback) => {
 	const params = {
 		TableName: process.env.DYNAMODB_TABLE,
 		Item: {
-			id: uuid.v1(),
+			vacationId: uuid.v1(),
 			startDate: data.startDate,
 			endDate: data.endDate,
 			numberOfDays: data.numberOfDays,
 			description: data.description,
-			userId: data.userId
+			userId: data.userId,
+			isApproved: data.isApproved
 		},
 	};
 

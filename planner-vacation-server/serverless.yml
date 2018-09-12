@@ -35,10 +35,10 @@ functions:
           cors: true
 
   get:
-    handler: vacation/get.get
+    handler: vacation/get.getByUserIdAndVacationId
     events:
       - http:
-          path: vacation/{id}
+          path: user/{userId}/vacation/{vacationId}
           method: get
           cors: true
 
@@ -46,7 +46,7 @@ functions:
       handler: vacation/getByUserId.getByUserId
       events:
         - http:
-            path: vacation/user/{userId}
+            path: user/{userId}/vacation
             method: get
             cors: true
 
@@ -54,7 +54,7 @@ functions:
     handler: vacation/update.update
     events:
       - http:
-          path: vacation/{id}
+          path: vacation/{vacationId}
           method: put
           cors: true
 
@@ -62,7 +62,7 @@ functions:
     handler: vacation/delete.delete
     events:
       - http:
-          path: vacation/{id}
+          path: vacation/{vacationId}
           method: delete
           cors: true
 
@@ -74,15 +74,18 @@ resources:
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: id
+            AttributeName: userId
             AttributeType: S
           -
-            AttributeName: userId
+            AttributeName: vacationId
             AttributeType: S
         KeySchema:
           -
-            AttributeName: id
+            AttributeName: userId
             KeyType: HASH
+          -
+            AttributeName: vacationId
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

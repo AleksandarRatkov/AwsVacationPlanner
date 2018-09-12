@@ -28,14 +28,14 @@
 					</md-list-item>
 				</md-list>
 			</md-app-drawer>
-			<md-app-content>
-				<div class="container">
+			<md-app-content class="screen-size">
+				<div class="container" v-cloak>
 					<div>
 						<h3>Previous vacations for user: {{username}}</h3>
 						<br>
 					</div>
 					<md-table v-model="vacations" md-sort="name" md-sort-order="asc" md-card>
-						<md-table-row slot="md-table-row" slot-scope="{ item }" @click="editVacation(item.id)">
+						<md-table-row slot="md-table-row" slot-scope="{ item }" @click="editVacation(item)" :class="{pointer : !item.isApproved, approvedVacation : item.isApproved}">
 							<md-table-cell md-label="Start date" md-sort-by="startDate">{{ item.startDate | moment("YYYY-MM-DD") }}
 							</md-table-cell>
 							<md-table-cell md-label="End date" md-sort-by="endDate">{{ item.endDate | moment("YYYY-MM-DD") }}
@@ -67,7 +67,8 @@
 					endDate: null,
 					numberOfDays: "",
 					description: "",
-					userId: ''
+					userId: '',
+					isApproved: false
 				},
 				errors: [],
 				menuVisible: false,
@@ -89,8 +90,8 @@
 			this.getUserInfo();
 		},
 		methods: {
-			getAllVacations: function (userId) {
-				this.$http.get('https://pczbc7mi7h.execute-api.eu-central-1.amazonaws.com/dev/vacation/user/' + userId)
+			getUserVacations: function (userId) {
+				this.$http.get('https://1edfxw2xv9.execute-api.eu-central-1.amazonaws.com/dev/user/' + userId + '/vacation')
 					.then((response) => {
 						this.vacations = response.data;
 					})
@@ -98,8 +99,11 @@
 						this.errors.push(e);
 					});
 			},
-			editVacation: function (vacationId) {
-				this.$router.push({name: 'AddVacation', params: {id: vacationId}})
+			editVacation: function (vacation) {
+				if(!vacation.isApproved)
+				{
+					this.$router.push({name: 'AddVacation', params: {vacationId: vacation.vacationId}})
+				}
 			},
 			changeRoute: function (path) {
 				this.menuVisible = false;
@@ -113,7 +117,9 @@
 					.then(info => {
 						this.username = info.username;
 						this.vacation.userId = info.id;
-						this.getAllVacations(this.vacation.userId);
+						setTimeout(()=>{
+							this.getUserVacations(this.vacation.userId)
+						},500);
 					})
 					.catch(err => console.log('get current credentials err', err));
 			}
@@ -125,5 +131,18 @@
 <style scoped>
 	.md-table-cell{
 		width: 25% !important;
+	}
+
+	.screen-size
+	{
+		height: 768px;
+	}
+
+	.pointer{
+		cursor: pointer;
+	}
+
+	.approvedVacation{
+		background-color: lightgrey;
 	}
 </style>

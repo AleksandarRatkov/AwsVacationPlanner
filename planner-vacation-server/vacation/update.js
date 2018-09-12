@@ -13,16 +13,17 @@ module.exports.update = (event, context, callback) => {
 	const params = {
 		TableName: process.env.DYNAMODB_TABLE,
 		Key: {
-			id: event.pathParameters.id,
+			vacationId: event.pathParameters.vacationId,
+			userId : data.userId
 		},
 		ExpressionAttributeValues: {
 			':startDate': data.startDate,
 			':endDate': data.endDate,
 			':numberOfDays': data.numberOfDays,
 			':description': data.description,
-			':userId': data.userId
+			':isApproved': data.isApproved
 		},
-		UpdateExpression: 'SET startDate = :startDate, endDate = :endDate, numberOfDays = :numberOfDays, description = :description, userId = :userId',
+		UpdateExpression: 'SET startDate = :startDate, endDate = :endDate, numberOfDays = :numberOfDays, description = :description, isApproved = :isApproved',
 		ReturnValues: 'ALL_NEW'
 	};
 

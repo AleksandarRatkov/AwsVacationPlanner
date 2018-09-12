@@ -8,16 +8,18 @@ const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-depe
 // - AWS Documentation
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.get = (event, context, callback) => {
+module.exports.getByUserIdAndVacationId = (event, context, callback) => {
 	const params = {
 		TableName: process.env.DYNAMODB_TABLE,
-		Key: {
-			id: event.pathParameters.id,
-		},
+		KeyConditionExpression: "userId = :userId and vacationId = :vacationId",
+		ExpressionAttributeValues: {
+			":userId": event.pathParameters.userId,
+			":vacationId": event.pathParameters.vacationId
+		}
 	};
 
 	// fetch vacation from the database
-	dynamoDb.get(params, (error, result) => {
+	dynamoDb.query(params, (error, result) => {
 		// handle potential errors
 		if (error)
 		{
@@ -33,7 +35,7 @@ module.exports.get = (event, context, callback) => {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Credentials': true,
 			},
-			body: JSON.stringify(result.Item),
+			body: JSON.stringify(result.Items),
 		};
 		callback(null, response);
 	});
