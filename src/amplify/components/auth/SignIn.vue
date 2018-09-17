@@ -65,7 +65,7 @@
 	import AmplifyStore from '../../AmplifyStore'
 
 	export default {
-		name: 'SignIn1',
+		name: 'SignIn',
 		data()
 		{
 			return {
@@ -130,10 +130,10 @@
 					.catch(err => this.setError(err));
 			},
 			forgot: function () {
-				this.$router.push('/auth/forgotPassword1');
+				this.$router.push('/auth/forgotPassword');
 			},
 			signUp: function () {
-				this.$router.push('/auth/signUp1');
+				this.$router.push('/auth/signUp');
 			},
 			setError: function (err) {
 				this.showSnackbar = true;

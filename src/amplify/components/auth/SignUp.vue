@@ -55,7 +55,7 @@
 	import AmplifyStore from '../../AmplifyStore'
 
 	export default {
-		name: 'SignUp1',
+		name: 'SignUp',
 		data()
 		{
 			return {
@@ -79,14 +79,14 @@
 			signUp: function (event) {
 				Auth.signUp(this.username, this.password, this.email, this.phone_number)
 					.then(data => {
-						this.$router.push('/auth/confirmSignUp1');
+						this.$router.push('/auth/confirmSignUp');
 					}).catch(err => this.setError(err))
 			},
 			signIn: function () {
-				this.$router.push('/auth/signIn1');
+				this.$router.push('/auth/signIn');
 			},
 			confirm: function () {
-				this.$router.push('/auth/confirmSignUp1');
+				this.$router.push('/auth/confirmSignUp');
 			},
 			setError: function (err) {
 				this.showSnackbar = true;

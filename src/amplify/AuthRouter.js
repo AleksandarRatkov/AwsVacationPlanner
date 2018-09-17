@@ -10,24 +10,24 @@ const AuthRouter = {
 	component: AuthView,
 	children: [
 		{
-			path: 'signUp1',
-			name: 'auth_SignUp1',
-			component: Components.SignUp1
+			path: 'signUp',
+			name: 'auth_SignUp',
+			component: Components.SignUp
 		},
 		{
-			path: 'signIn1',
-			name: 'auth_SignIn1',
-			component: Components.SignIn1
+			path: 'signIn',
+			name: 'auth_SignIn',
+			component: Components.SignIn
 		},
 		{
-			path: 'signOut1',
-			name: 'auth_SignOut1',
-			component: Components.SignOut1
+			path: 'signOut',
+			name: 'auth_SignOut',
+			component: Components.SignOut
 		},
 		{
-			path: 'confirmSignUp1',
-			name: 'auth_ConfirmSignUp1',
-			component: Components.ConfirmSignUp1
+			path: 'confirmSignUp',
+			name: 'auth_ConfirmSignUp',
+			component: Components.ConfirmSignUp
 		},
 		{
 			path: 'verifyContact',
@@ -35,9 +35,9 @@ const AuthRouter = {
 			component: Components.VerifyContact
 		},
 		{
-			path: 'forgotPassword1',
-			name: 'auth_ForgotPassword1',
-			component: Components.ForgotPassword1
+			path: 'forgotPassword',
+			name: 'auth_ForgotPassword',
+			component: Components.ForgotPassword
 		}
 	]
 };
@@ -57,7 +57,7 @@ const AuthFilter = (to, from, next) => {
 			AmplifyStore.commit('setUser', null);
 			if (!to.name.startsWith('auth'))
 			{
-				next('/auth/signIn1')
+				next('/auth/signIn')
 			}
 			else
 			{

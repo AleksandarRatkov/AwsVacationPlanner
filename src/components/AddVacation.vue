@@ -150,7 +150,7 @@
 			onConfirm: function () {
 				Auth.signOut()
 					.then(() => {
-						this.$router.push('/auth/signIn1');
+						this.$router.push('/auth/signIn');
 					})
 					.catch(err => this.setError(err))
 			},

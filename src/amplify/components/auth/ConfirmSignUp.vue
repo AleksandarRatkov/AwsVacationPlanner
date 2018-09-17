@@ -40,10 +40,9 @@
 <script>
 	import {Auth} from 'aws-amplify'
 	import AmplifyStore from '../../AmplifyStore'
-	import AmplifyTheme from '../../AmplifyTheme'
 
 	export default {
-		name: 'ConfirmSignUp1',
+		name: 'ConfirmSignUp',
 		data()
 		{
 			return {
@@ -72,7 +71,7 @@
 					.catch(err => this.setError(err));
 			},
 			signIn: function () {
-				this.$router.push('/auth/signIn1');
+				this.$router.push('/auth/signIn');
 			},
 			setError: function (err) {
 				this.showSnackbar = true;

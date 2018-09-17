@@ -1,27 +1,27 @@
 import Vue from 'vue'
 
 import VerifyContact from './VerifyContact'
-import SignIn1 from './SignIn1'
-import SignUp1 from './SignUp1'
-import SignOut1 from './SignOut1'
-import ConfirmSignUp1 from './ConfirmSignUp1'
-import ForgotPassword1 from './ForgotPassword1'
+import SignIn from './SignIn'
+import SignUp from './SignUp'
+import SignOut from './SignOut'
+import ConfirmSignUp from './ConfirmSignUp'
+import ForgotPassword from './ForgotPassword'
 
 
 
 Vue.component('a-verify-contact', VerifyContact);
-Vue.component('a-sign-in-1', SignIn1);
-Vue.component('a-sign-up-1', SignUp1);
-Vue.component('a-sign-out-1', SignOut1);
-Vue.component('a-confirm-sign-up-1', ConfirmSignUp1);
-Vue.component('a-forgot-password-1', ForgotPassword1);
+Vue.component('a-sign-in', SignIn);
+Vue.component('a-sign-up', SignUp);
+Vue.component('a-sign-out', SignOut);
+Vue.component('a-confirm-sign-up', ConfirmSignUp);
+Vue.component('a-forgot-password', ForgotPassword);
 
 
 export {
 	VerifyContact,
-	SignIn1,
-	SignUp1,
-	SignOut1,
-	ConfirmSignUp1,
-	ForgotPassword1
+	SignIn,
+	SignUp,
+	SignOut,
+	ConfirmSignUp,
+	ForgotPassword
 }

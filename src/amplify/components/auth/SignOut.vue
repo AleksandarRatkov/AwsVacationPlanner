@@ -21,7 +21,7 @@
 	import {Auth, JS} from 'aws-amplify'
 
 	export default {
-		name: 'SignOut1',
+		name: 'SignOut',
 		data()
 		{
 			return {
@@ -35,7 +35,7 @@
 			signOut: function (event) {
 				Auth.signOut()
 					.then(() => {
-						this.$router.push('/auth/signIn1');
+						this.$router.push('/auth/signIn');
 					})
 					.catch(err => this.setError(err))
 			},

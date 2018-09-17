@@ -49,7 +49,7 @@
 	import AmplifyStore from '../../AmplifyStore'
 
 	export default {
-		name: 'ForgotPassword1',
+		name: 'ForgotPassword',
 		data()
 		{
 			return {
@@ -79,7 +79,7 @@
 					.catch(err => this.setError(err));
 			},
 			signIn: function () {
-				this.$router.push('/auth/signIn1');
+				this.$router.push('/auth/signIn');
 			},
 			setError: function (err) {
 				this.showSnackbar = true;
