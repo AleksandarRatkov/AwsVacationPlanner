@@ -27,8 +27,10 @@
 						<label for="phone_number">Phone number</label>
 						<md-input type="text" name="phone_number" id="phone_number" v-model="phone_number"/>
 					</md-field>
-
-					<md-button @click="signUp" class="md-primary md-raised" :disabled="!username || !password">Sign Up</md-button>
+					<div class="md-layout md-gutter md-alignment-center-center">
+						<md-button @click="signUp" class="md-primary md-raised" :disabled="!username || !password">Sign Up
+						</md-button>
+					</div>
 				</md-card-content>
 
 				<md-card-actions>

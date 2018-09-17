@@ -16,8 +16,9 @@
 					<label for="code">Code</label>
 					<md-input type="text" name="code" id="code" v-model="code"/>
 				</md-field>
-
-				<md-button @click="confirm" :disabled="!username || !code" class="md-primary md-raised">Confirm</md-button>
+				<div class="md-layout md-gutter md-alignment-center-center">
+					<md-button @click="confirm" :disabled="!username || !code" class="md-primary md-raised">Confirm</md-button>
+				</div>
 			</md-card-content>
 
 			<md-card-actions>

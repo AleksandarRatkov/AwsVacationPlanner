@@ -21,11 +21,12 @@
 					<label for="password">New Password</label>
 					<md-input type="password" name="password" id="password" v-model="password"/>
 				</md-field>
-
-				<md-button @click="send" class="md-primary md-raised" :disabled="!username">Send code</md-button>
-				<md-button @click="submit" class="md-primary md-raised" :disabled="!username || !code || !password">Submit New
-					Password
-				</md-button>
+				<div class="md-layout md-gutter md-alignment-center-center">
+					<md-button @click="send" class="md-primary md-raised" :disabled="!username">Send code</md-button>
+					<md-button @click="submit" class="md-primary md-raised" :disabled="!username || !code || !password">Submit New
+						Password
+					</md-button>
+				</div>
 			</md-card-content>
 
 			<md-card-actions>

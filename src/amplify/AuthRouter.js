@@ -10,16 +10,6 @@ const AuthRouter = {
 	component: AuthView,
 	children: [
 		{
-			path: 'signIn',
-			name: 'auth_SignIn',
-			component: Components.SignIn
-		},
-		{
-			path: 'signUp',
-			name: 'auth_SignUp',
-			component: Components.SignUp
-		},
-		{
 			path: 'signUp1',
 			name: 'auth_SignUp1',
 			component: Components.SignUp1
@@ -30,19 +20,9 @@ const AuthRouter = {
 			component: Components.SignIn1
 		},
 		{
-			path: 'signOut',
-			name: 'auth_SignOut',
-			component: Components.SignOut
-		},
-		{
 			path: 'signOut1',
 			name: 'auth_SignOut1',
 			component: Components.SignOut1
-		},
-		{
-			path: 'confirmSignUp',
-			name: 'auth_ConfirmSignUp',
-			component: Components.ConfirmSignUp
 		},
 		{
 			path: 'confirmSignUp1',
@@ -53,11 +33,6 @@ const AuthRouter = {
 			path: 'verifyContact',
 			name: 'auth_VerifyContact',
 			component: Components.VerifyContact
-		},
-		{
-			path: 'forgotPassword',
-			name: 'auth_ForgotPassword',
-			component: Components.ForgotPassword
 		},
 		{
 			path: 'forgotPassword1',

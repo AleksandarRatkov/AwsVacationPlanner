@@ -19,9 +19,12 @@
 							<md-input type="password" name="password" id="password" v-model="password"/>
 						</md-field>
 
-						<md-button @click="signIn" :disabled="!username || !password" class="md-primary md-raised">
-							Sign In
-						</md-button>
+						<div class="md-layout md-gutter md-alignment-center-center">
+							<md-button @click="signIn" :disabled="!username || !password"
+							           class="md-primary md-raised">
+								Sign In
+							</md-button>
+						</div>
 					</md-card-content>
 				</div>
 
