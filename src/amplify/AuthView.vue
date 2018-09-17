@@ -6,11 +6,6 @@
 
 <script>
   export default {
-    name: 'AuthView',
-    data () {
-      return {
-        theme: AmplifyTheme
-      }
-    }
+    name: 'AuthView'
   }
 </script>.

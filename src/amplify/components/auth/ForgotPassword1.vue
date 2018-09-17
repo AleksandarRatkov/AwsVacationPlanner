@@ -2,9 +2,11 @@
 	<form novalidate class="md-layout md-alignment-center">
 		<!--<md-card class="md-layout-item md-size-25"/>-->
 		<md-card class="md-layout-item md-size-50 md-small-size-100">
-			<md-card-header>
-				<div class="md-title">Forgot Password</div>
-			</md-card-header>
+			<div class="md-layout md-gutter md-alignment-center-center">
+				<md-card-header>
+					<div class="md-title">Forgot Password</div>
+				</md-card-header>
+			</div>
 
 			<md-card-content>
 				<md-field>

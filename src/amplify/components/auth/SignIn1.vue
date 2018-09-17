@@ -2,10 +2,12 @@
 	<div>
 		<form novalidate class="md-layout md-alignment-center">
 			<md-card class="md-layout-item md-size-50 md-small-size-100">
-				<md-card-header>
-					<div class="md-title" v-if="!confirmView">Sign In</div>
-					<div class="md-title" v-if="confirmView">Confirm Sign In</div>
-				</md-card-header>
+				<div class="md-layout md-gutter md-alignment-center-center">
+					<md-card-header>
+						<div class="md-title" v-if="!confirmView">Sign In</div>
+						<div class="md-title" v-if="confirmView">Confirm Sign In</div>
+					</md-card-header>
+				</div>
 
 				<div v-if="!confirmView">
 					<md-card-content>
