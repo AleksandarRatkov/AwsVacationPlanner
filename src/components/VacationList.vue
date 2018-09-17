@@ -1,5 +1,14 @@
 <template>
 	<div class="page-container" id="app">
+		<md-dialog-confirm
+				:md-active.sync="active"
+				md-title="Sign Out"
+				md-content="Are you really sure you want to sign out?"
+				md-confirm-text="Agree"
+				md-cancel-text="Disagree"
+				@md-cancel="onCancel"
+				@md-confirm="onConfirm" />
+
 		<md-app md-mode="reveal">
 			<md-app-toolbar class="md-primary">
 				<md-button class="md-icon-button" @click="menuVisible = !menuVisible">
@@ -22,7 +31,7 @@
 						<span class="md-list-item-text">Create new vacation</span>
 					</md-list-item>
 
-					<md-list-item @click="signOut()">
+					<md-list-item @click="active = true">
 						<md-icon>account_circle</md-icon>
 						<span class="md-list-item-text">Sign out</span>
 					</md-list-item>
@@ -72,7 +81,8 @@
 				},
 				errors: [],
 				menuVisible: false,
-				username: ''
+				username: '',
+				active: false
 			};
 		},
 		filters: {
@@ -109,8 +119,15 @@
 				this.menuVisible = false;
 				this.$router.push(path);
 			},
-			signOut: function () {
-				this.$router.push('/auth/signOut1')
+			onConfirm: function () {
+				Auth.signOut()
+					.then(() => {
+						this.$router.push('/auth/signIn1');
+					})
+					.catch(err => this.setError(err))
+			},
+			onCancel: function () {
+				this.menuVisible = false;
 			},
 			getUserInfo: function () {
 				Auth.currentUserInfo()

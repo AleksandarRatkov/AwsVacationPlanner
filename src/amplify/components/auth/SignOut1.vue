@@ -8,6 +8,12 @@
 			<md-button @click="signOut" class="md-primary md-raised">Confirm</md-button>
 			<md-button @click="cancel" class="md-accent md-raised">Cancel</md-button>
 		</md-card>
+
+		<md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar"
+		             md-persistent>
+			<span>{{error}}</span>
+			<md-button class="md-primary" @click="showSnackbar = false">Close</md-button>
+		</md-snackbar>
 	</div>
 </template>
 
@@ -19,7 +25,10 @@
 		data()
 		{
 			return {
-				error: ''
+				error: '',
+				showSnackbar: false,
+				duration: 6000,
+				isInfinity: false
 			}
 		},
 		methods: {
@@ -34,6 +43,7 @@
 				this.$router.push('/');
 			},
 			setError: function (err) {
+				this.showSnackbar = true;
 				this.error = err.message || err;
 			}
 		}
