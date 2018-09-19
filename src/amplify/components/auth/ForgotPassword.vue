@@ -59,7 +59,8 @@
 				error: '',
 				showSnackbar: false,
 				duration: 6000,
-				isInfinity: false
+				isInfinity: false,
+				position: 'center'
 			}
 		},
 		computed: {

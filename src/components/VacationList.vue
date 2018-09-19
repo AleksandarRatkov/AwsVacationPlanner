@@ -101,7 +101,7 @@
 		},
 		methods: {
 			getUserVacations: function (userId) {
-				this.$http.get('https://1edfxw2xv9.execute-api.eu-central-1.amazonaws.com/dev/user/' + userId + '/vacation')
+				this.$http.get('https://vglbyiygsh.execute-api.eu-central-1.amazonaws.com/dev/user/' + userId + '/vacation')
 					.then((response) => {
 						this.vacations = response.data;
 					})

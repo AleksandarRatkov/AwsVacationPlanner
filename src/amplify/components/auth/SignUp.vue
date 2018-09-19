@@ -25,10 +25,16 @@
 						<md-input type="email" name="email" id="email" v-model="email"/>
 					</md-field>
 
+					<!--<md-field>-->
+						<!--<label for="name">Name</label>-->
+						<!--<md-input type="text" name="name" id="name" v-model="name"/>-->
+					<!--</md-field>-->
+
 					<md-field>
 						<label for="phone_number">Phone number</label>
 						<md-input type="text" name="phone_number" id="phone_number" v-model="phone_number"/>
 					</md-field>
+
 					<div class="md-layout md-gutter md-alignment-center-center">
 						<md-button @click="signUp" class="md-primary md-raised" :disabled="!username || !password">Sign Up
 						</md-button>
@@ -62,11 +68,14 @@
 				username: '',
 				password: '',
 				email: '',
-				phone_number: '',
+				name: '',
 				error: '',
 				showSnackbar: false,
 				duration: 6000,
-				isInfinity: false
+				isInfinity: false,
+				role: 'user',
+				phone_number: '',
+				position: 'center'
 			}
 		},
 		computed: {
