@@ -73,9 +73,17 @@
 				showSnackbar: false,
 				duration: 6000,
 				isInfinity: false,
-				role: 'user',
 				phone_number: '',
-				position: 'center'
+				position: 'center',
+				signUpUser : {
+					'username': '',
+					'password': '',
+					'attributes': {
+						'email': '',
+						'phone_number': '',
+						'custom:privileges': 'user'
+					}
+				}
 			}
 		},
 		computed: {
@@ -86,7 +94,12 @@
 		},
 		methods: {
 			signUp: function (event) {
-				Auth.signUp(this.username, this.password, this.email, this.phone_number)
+				this.signUpUser.username = this.username;
+				this.signUpUser.password = this.password;
+				this.signUpUser.attributes.email = this.email;
+				this.signUpUser.attributes.phone_number = this.phone_number;
+
+				Auth.signUp(this.signUpUser)
 					.then(data => {
 						this.$router.push('/auth/confirmSignUp');
 					}).catch(err => this.setError(err))

@@ -1,7 +1,7 @@
 <template>
 	<div class="page-container">
 		<md-dialog-confirm
-				:md-active.sync="active"
+				:md-active.sync="activeSignOut"
 				md-title="Sign Out"
 				md-content="Are you really sure you want to sign out?"
 				md-confirm-text="Agree"
@@ -31,7 +31,7 @@
 						<span class="md-list-item-text">Create new vacation</span>
 					</md-list-item>
 
-					<md-list-item @click="active = true">
+					<md-list-item @click="activeSignOut = true">
 						<md-icon>account_circle</md-icon>
 						<span class="md-list-item-text">Sign out</span>
 					</md-list-item>
@@ -108,7 +108,7 @@
 				vacationId: this.$route.params.vacationId,
 				errors: [],
 				menuVisible: false,
-				active: false,
+				activeSignOut: false,
 			};
 		},
 		created()

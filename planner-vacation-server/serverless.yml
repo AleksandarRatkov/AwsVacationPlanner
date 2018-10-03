@@ -105,7 +105,6 @@ resources:
         Policies:
           PasswordPolicy:
             RequireLowercase: true
-            RequireSymbols: true
             RequireNumbers: true
             MinimumLength: 8
             RequireUppercase: true
@@ -114,6 +113,9 @@ resources:
             AttributeDataType: String
             Mutable: false
             Required: true
+          - Name: privileges
+            AttributeDataType: String
+            Mutable: true
     # Cognito - Client
     CognitoUserPoolClient:
       Type: AWS::Cognito::UserPoolClient
