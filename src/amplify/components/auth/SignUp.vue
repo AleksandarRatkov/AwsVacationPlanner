@@ -25,11 +25,6 @@
 						<md-input type="email" name="email" id="email" v-model="email"/>
 					</md-field>
 
-					<!--<md-field>-->
-						<!--<label for="name">Name</label>-->
-						<!--<md-input type="text" name="name" id="name" v-model="name"/>-->
-					<!--</md-field>-->
-
 					<md-field>
 						<label for="phone_number">Phone number</label>
 						<md-input type="text" name="phone_number" id="phone_number" v-model="phone_number"/>
@@ -75,7 +70,7 @@
 				isInfinity: false,
 				phone_number: '',
 				position: 'center',
-				signUpUser : {
+				signUpUser: {
 					'username': '',
 					'password': '',
 					'attributes': {
@@ -93,7 +88,23 @@
 			}
 		},
 		methods: {
-			signUp: function (event) {
+			sendWelcomeEmail: function () {
+				let emailTemplate = {
+					email: this.email,
+					username: this.username,
+					type: 'welcome',
+					text: 'It is nice to have you on board! Now you are able to create vacation requests!',
+					title: 'Welcome to our company!'
+				};
+
+				this.$http.post('https://ldo1hllnd3.execute-api.eu-west-1.amazonaws.com/dev/email/send', emailTemplate)
+					.then(function (response) {
+						console.log('Email successfully sent!', response.message);
+					}, function (response) {
+						console.log('Error sending email!', response.data);
+					});
+			},
+			signUp: function () {
 				this.signUpUser.username = this.username;
 				this.signUpUser.password = this.password;
 				this.signUpUser.attributes.email = this.email;
@@ -101,6 +112,7 @@
 
 				Auth.signUp(this.signUpUser)
 					.then(data => {
+						this.sendWelcomeEmail();
 						this.$router.push('/auth/confirmSignUp');
 					}).catch(err => this.setError(err))
 			},
