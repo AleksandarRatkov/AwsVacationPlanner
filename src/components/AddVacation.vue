@@ -1,4 +1,4 @@
-<template v-if="">
+<template>
 	<div class="page-container">
 		<md-dialog-confirm
 				:md-active.sync="activeSignOut"
@@ -38,7 +38,7 @@
 				</md-list>
 			</md-app-drawer>
 			<md-app-content>
-				<div class="container">
+				<div class="container" v-show="dataLoaded">
 					<div v-if="!vacationId">
 						<h3>Enter new vacation </h3>
 					</div>
@@ -114,7 +114,8 @@
 				menuVisible: false,
 				activeSignOut: false,
 				email: '',
-				username: ''
+				username: '',
+				dataLoaded: false
 			};
 		},
 		created()
@@ -160,6 +161,7 @@
 					vacationId)
 					.then((response) => {
 						this.vacation = response.data[0];
+						this.dataLoaded = true;
 					})
 					.catch((e) => {
 						this.errors.push(e);
@@ -197,6 +199,10 @@
 						if (this.vacation.userId && this.vacationId)
 						{
 							this.getVacation(this.vacation.userId, this.vacationId);
+						}
+						else
+						{
+							this.dataLoaded = true;
 						}
 					})
 					.catch(err => console.log('get current credentials err', err));

@@ -95,7 +95,7 @@
 				</md-list>
 			</md-app-drawer>
 			<md-app-content class="screen-size">
-				<div class="container" v-cloak>
+				<div class="container" v-show="dataLoaded">
 					<div>
 						<h3 v-if="privileges === 'user'">Welcome user {{username}}! Here you can see all vacation request that you
 							created!</h3>
@@ -150,7 +150,7 @@
 				activeVacation: false,
 				activeRole: false,
 				privileges: 'user',
-				jwtToken: null
+				dataLoaded: false
 			};
 		},
 		filters: {
@@ -172,14 +172,10 @@
 		},
 		methods: {
 			getUserVacations: function (userId) {
-				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/user/' + userId + '/vacation',
-					{
-						headers: {
-							'Authorization': this.jwtToken
-						}
-					})
+				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/user/' + userId + '/vacation')
 					.then((response) => {
 						this.vacations = response.data;
+						this.dataLoaded = true;
 					})
 					.catch((e) => {
 						this.errors.push(e);
@@ -189,6 +185,7 @@
 				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/vacation')
 					.then((response) => {
 						this.vacations = response.data;
+						this.dataLoaded = true;
 					})
 					.catch((e) => {
 						this.errors.push(e);
@@ -284,12 +281,6 @@
 					this.menuVisible = false;
 					this.getUserInfo();
 				});
-
-				Auth.currentSession()
-					.then(info => {
-						this.jwtToken = info.accessToken.jwtToken;
-					})
-					.catch(err => console.log('get current tokens err', err));
 			}
 		}
 	};
