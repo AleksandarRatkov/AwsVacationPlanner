@@ -139,7 +139,7 @@
 					description: this.vacation.description,
 				};
 
-				this.$http.post('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/email/sendEmail', emailTemplate)
+				this.$http.post(this.$awsLink + 'email/sendEmail', emailTemplate)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.$router.push('/')
@@ -148,7 +148,7 @@
 					});
 			},
 			saveVacation: function () {
-				this.$http.post('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/vacation', this.vacation)
+				this.$http.post(this.$awsLink + 'vacation', this.vacation)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.sendVacationCreatedEmail();
@@ -157,7 +157,7 @@
 					});
 			},
 			getVacation: function (userId, vacationId) {
-				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/user/' + userId + '/vacation/' +
+				this.$http.get(this.$awsLink + 'user/' + userId + '/vacation/' +
 					vacationId)
 					.then((response) => {
 						this.vacation = response.data[0];
@@ -168,7 +168,7 @@
 					});
 			},
 			editVacation: function (vacationId) {
-				this.$http.put('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/vacation/' + vacationId, this.vacation)
+				this.$http.put(this.$awsLink + 'vacation/' + vacationId, this.vacation)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.$router.push('/')

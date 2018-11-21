@@ -172,7 +172,7 @@
 		},
 		methods: {
 			getUserVacations: function (userId) {
-				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/user/' + userId + '/vacation')
+				this.$http.get(this.$awsLink + 'user/' + userId + '/vacation')
 					.then((response) => {
 						this.vacations = response.data;
 						this.dataLoaded = true;
@@ -182,7 +182,7 @@
 					});
 			},
 			getAllVacations: function () {
-				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/vacation')
+				this.$http.get(this.$awsLink + 'vacation')
 					.then((response) => {
 						this.vacations = response.data;
 						this.dataLoaded = true;
@@ -192,8 +192,7 @@
 					});
 			},
 			getVacation: function (userId, vacationId) {
-				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/user/' + userId + '/vacation/' +
-					vacationId)
+				this.$http.get(this.$awsLink + 'user/' + userId + '/vacation/' + vacationId)
 					.then((response) => {
 						this.vacation = response.data[0];
 						this.vacation.startDate = this.dateFormatting(this.vacation.startDate);
@@ -227,7 +226,7 @@
 			},
 			approveVacation: function (vacation) {
 				vacation.isApproved = true;
-				this.$http.put('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/vacation/' + vacation.vacationId, vacation)
+				this.$http.put(this.$awsLink + 'vacation/' + vacation.vacationId, vacation)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.activeVacation = false;
