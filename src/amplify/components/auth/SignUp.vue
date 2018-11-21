@@ -97,7 +97,7 @@
 					title: 'Welcome to our company!'
 				};
 
-				this.$http.post('https://ldo1hllnd3.execute-api.eu-west-1.amazonaws.com/dev/email/send', emailTemplate)
+				this.$http.post('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/email/sendEmail', emailTemplate)
 					.then(function (response) {
 						console.log('Email successfully sent!', response.message);
 					}, function (response) {

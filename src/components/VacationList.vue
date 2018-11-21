@@ -149,7 +149,8 @@
 				activeSignOut: false,
 				activeVacation: false,
 				activeRole: false,
-				privileges: 'user'
+				privileges: 'user',
+				jwtToken: null
 			};
 		},
 		filters: {
@@ -171,7 +172,12 @@
 		},
 		methods: {
 			getUserVacations: function (userId) {
-				this.$http.get('https://vglbyiygsh.execute-api.eu-central-1.amazonaws.com/dev/user/' + userId + '/vacation')
+				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/user/' + userId + '/vacation',
+					{
+						headers: {
+							'Authorization': this.jwtToken
+						}
+					})
 					.then((response) => {
 						this.vacations = response.data;
 					})
@@ -180,7 +186,7 @@
 					});
 			},
 			getAllVacations: function () {
-				this.$http.get('https://vglbyiygsh.execute-api.eu-central-1.amazonaws.com/dev/vacation')
+				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/vacation')
 					.then((response) => {
 						this.vacations = response.data;
 					})
@@ -189,7 +195,7 @@
 					});
 			},
 			getVacation: function (userId, vacationId) {
-				this.$http.get('https://vglbyiygsh.execute-api.eu-central-1.amazonaws.com/dev/user/' + userId + '/vacation/' +
+				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/user/' + userId + '/vacation/' +
 					vacationId)
 					.then((response) => {
 						this.vacation = response.data[0];
@@ -224,7 +230,7 @@
 			},
 			approveVacation: function (vacation) {
 				vacation.isApproved = true;
-				this.$http.put('https://vglbyiygsh.execute-api.eu-central-1.amazonaws.com/dev/vacation/' + vacation.vacationId, vacation)
+				this.$http.put('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/vacation/' + vacation.vacationId, vacation)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.activeVacation = false;
@@ -278,6 +284,12 @@
 					this.menuVisible = false;
 					this.getUserInfo();
 				});
+
+				Auth.currentSession()
+					.then(info => {
+						this.jwtToken = info.accessToken.jwtToken;
+					})
+					.catch(err => console.log('get current tokens err', err));
 			}
 		}
 	};

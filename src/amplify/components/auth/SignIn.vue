@@ -87,7 +87,6 @@
 				const that = this;
 				Auth.signIn(this.username, this.password)
 					.then(user => {
-						console.log('User je : ' + JSON.stringify(user, null, 2));
 						AmplifyStore.commit('setUser', user);
 						return user
 					})

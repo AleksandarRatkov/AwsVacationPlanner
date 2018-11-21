@@ -7,7 +7,7 @@ const ses = new AWS.SES();
 module.exports.sendEmail = (event, context, callback) => {
 	let data = JSON.parse(event.body);
 	let welcomeTemplate = `<p>Welcome <b>${data.username}</b> ${data.text}</p>`;
-	let vacationTemplate = `<p>You successfully created vacation request with next parameters:</p><ol><li>Dates: ${data.startDate} - ${data.endDate}</li><li>Number of days: ${data.numberOfDays}</li><li>Description: ${data.description}</li></ol>`;
+	let vacationTemplate = `<p>Employee ${data.username} successfully created vacation request with next parameters:</p><ol><li>Dates: ${data.startDate} - ${data.endDate}</li><li>Number of days: ${data.numberOfDays}</li><li>Description: ${data.description}</li></ol>`;
 
 	let mailOptions = {
 		from: data.email,
@@ -32,7 +32,7 @@ module.exports.sendEmail = (event, context, callback) => {
 		});
 
 	// send email
-	transporter.sendMail(mailOptions, function (err, info) {
+	transporter.sendMail(mailOptions, function (err) {
 		if (err)
 		{
 			console.log("Error sending email");
@@ -41,7 +41,15 @@ module.exports.sendEmail = (event, context, callback) => {
 		else
 		{
 			console.log("Email sent successfully");
-			callback();
+			const response = {
+				statusCode: 200,
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Allow-Credentials': true,
+				},
+				body: JSON.stringify({'message' : 'Email sent successfully'}),
+			};
+			callback(null, response);
 		}
 	});
 };

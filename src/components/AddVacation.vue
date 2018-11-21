@@ -1,4 +1,4 @@
-<template>
+<template v-if="">
 	<div class="page-container">
 		<md-dialog-confirm
 				:md-active.sync="activeSignOut"
@@ -7,7 +7,7 @@
 				md-confirm-text="Agree"
 				md-cancel-text="Disagree"
 				@md-cancel="onCancel"
-				@md-confirm="onConfirm" />
+				@md-confirm="onConfirm"/>
 
 		<md-app md-mode="reveal">
 			<md-app-toolbar class="md-primary">
@@ -49,15 +49,15 @@
 
 					<p class="float-right">
 						<router-link to="/">
-							<md-button class="md-raised md-primary">See previous vacations</md-button>
+							<md-button class="md-raised md-primary">See user vacations</md-button>
 						</router-link>
 					</p>
 
-					<md-datepicker v-model="vacation.startDate">
+					<md-datepicker v-model="vacation.startDate" md-immediately>
 						<label>Start date(Inclusive)</label>
 					</md-datepicker>
 
-					<md-datepicker v-model="vacation.endDate">
+					<md-datepicker v-model="vacation.endDate" md-immediately>
 						<label>End date(Inclusive)</label>
 					</md-datepicker>
 
@@ -92,6 +92,10 @@
 
 <script>
 	import {Auth} from 'aws-amplify'
+	import Vue from 'vue'
+	import moment from 'moment'
+
+	Vue.use(require('vue-moment'));
 
 	export default {
 		data()
@@ -100,8 +104,8 @@
 				vacation: {
 					startDate: null,
 					endDate: null,
-					numberOfDays: "",
-					description: "",
+					numberOfDays: '',
+					description: '',
 					userId: '',
 					isApproved: false
 				},
@@ -109,6 +113,8 @@
 				errors: [],
 				menuVisible: false,
 				activeSignOut: false,
+				email: '',
+				username: ''
 			};
 		},
 		created()
@@ -116,8 +122,23 @@
 			this.getUserInfo();
 		},
 		methods: {
-			saveVacation: function () {
-				this.$http.post('https://vglbyiygsh.execute-api.eu-central-1.amazonaws.com/dev/vacation', this.vacation)
+			dateFormatting: function (date) {
+				return moment(date).format("YYYY-MM-DD");
+			},
+			sendVacationCreatedEmail: function () {
+
+				let emailTemplate = {
+					email: this.email,
+					username: this.username,
+					type: 'vacation',
+					title: 'Successfully created vacation request!',
+					startDate: this.dateFormatting(this.vacation.startDate),
+					endDate: this.dateFormatting(this.vacation.endDate),
+					numberOfDays: this.vacation.numberOfDays,
+					description: this.vacation.description,
+				};
+
+				this.$http.post('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/email/sendEmail', emailTemplate)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.$router.push('/')
@@ -125,8 +146,18 @@
 						console.log('Error!:', response.data);
 					});
 			},
+			saveVacation: function () {
+				this.$http.post('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/vacation', this.vacation)
+					.then(function (response) {
+						console.log('Success!:', response.message);
+						this.sendVacationCreatedEmail();
+					}, function (response) {
+						console.log('Error!:', response.data);
+					});
+			},
 			getVacation: function (userId, vacationId) {
-				this.$http.get('https://vglbyiygsh.execute-api.eu-central-1.amazonaws.com/dev/user/' + userId + '/vacation/' + vacationId)
+				this.$http.get('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/user/' + userId + '/vacation/' +
+					vacationId)
 					.then((response) => {
 						this.vacation = response.data[0];
 					})
@@ -135,7 +166,7 @@
 					});
 			},
 			editVacation: function (vacationId) {
-				this.$http.put('https://vglbyiygsh.execute-api.eu-central-1.amazonaws.com/dev/vacation/' + vacationId, this.vacation)
+				this.$http.put('https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/vacation/' + vacationId, this.vacation)
 					.then(function (response) {
 						console.log('Success!:', response.message);
 						this.$router.push('/')
@@ -161,6 +192,8 @@
 				Auth.currentUserInfo()
 					.then(info => {
 						this.vacation.userId = info.id;
+						this.email = info.attributes.email;
+						this.username = info.username;
 						if (this.vacation.userId && this.vacationId)
 						{
 							this.getVacation(this.vacation.userId, this.vacationId);
