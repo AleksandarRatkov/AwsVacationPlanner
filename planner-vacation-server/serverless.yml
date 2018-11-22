@@ -28,6 +28,10 @@ functions:
           path: vacation
           method: post
           cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   list:
     handler: vacation/list.list
@@ -36,6 +40,10 @@ functions:
           path: vacation
           method: get
           cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   get:
     handler: vacation/get.getByUserIdAndVacationId
@@ -44,6 +52,10 @@ functions:
           path: user/{userId}/vacation/{vacationId}
           method: get
           cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   getByUserId:
       handler: vacation/getByUserId.getByUserId
@@ -52,7 +64,10 @@ functions:
             path: user/{userId}/vacation
             method: get
             cors: true
-
+            authorizer:
+              type: COGNITO_USER_POOLS
+              authorizerId:
+                Ref: ApiGatewayAuthorizer
   update:
     handler: vacation/update.update
     events:
@@ -60,6 +75,10 @@ functions:
           path: vacation/{vacationId}
           method: put
           cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   delete:
     handler: vacation/delete.delete
@@ -68,6 +87,10 @@ functions:
           path: vacation/{vacationId}
           method: delete
           cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   sendEmail:
         handler: email/sendEmail.sendEmail
@@ -145,6 +168,20 @@ resources:
               Ref: CognitoUserPoolClient
             ProviderName:
               Fn::GetAtt: [CognitoUserPool, ProviderName]
+
+    ApiGatewayAuthorizer:
+          Type: AWS::ApiGateway::Authorizer
+          Properties:
+            Name: ${self:service}-user-pool-authorizer
+            Type: COGNITO_USER_POOLS
+            IdentitySource: method.request.header.Authorization
+            RestApiId:
+              Ref: ApiGatewayRestApi
+            ProviderARNs:
+              - Fn::GetAtt:
+                - CognitoUserPool
+                - Arn
+
     # Cognito roles
     CognitoIdentityPoolRoles:
       Type: AWS::Cognito::IdentityPoolRoleAttachment
@@ -220,4 +257,5 @@ resources:
                     - "cognito-sync:*"
                     - "cognito-identity:*"
                   Resource: "*"
+
 
