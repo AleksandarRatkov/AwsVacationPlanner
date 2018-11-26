@@ -15,7 +15,7 @@
 	Vue.use(VueMaterial);
 	Vue.use(VueResource);
 
-	Vue.prototype.$awsLink = 'https://dby71730z7.execute-api.eu-west-1.amazonaws.com/dev/';
+	Vue.prototype.$awsLink = 'https://uelsoc6io9.execute-api.eu-west-1.amazonaws.com/dev/';
 
 	export default {
 		name: 'App',
@@ -23,9 +23,12 @@
 		{
 			Auth.currentSession()
 				.then(info => {
-					Vue.http.interceptors.push((request) => {
-						request.headers.set('Authorization', info.idToken.jwtToken);
-					});
+					const token = info.idToken.jwtToken;
+					if (token) {
+						Vue.http.interceptors.push((request) => {
+							request.headers.set('Authorization', token);
+						});
+					}
 
 				})
 				.catch(err => console.log('get current tokens err', err));
