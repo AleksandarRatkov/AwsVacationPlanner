@@ -24,11 +24,9 @@
 			Auth.currentSession()
 				.then(info => {
 					const token = info.idToken.jwtToken;
-					if (token) {
 						Vue.http.interceptors.push((request) => {
 							request.headers.set('Authorization', token);
 						});
-					}
 
 				})
 				.catch(err => console.log('get current tokens err', err));
