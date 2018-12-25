@@ -15,7 +15,6 @@
 	Vue.use(VueMaterial);
 	Vue.use(VueResource);
 
-	Vue.prototype.$awsLink = 'https://uelsoc6io9.execute-api.eu-west-1.amazonaws.com/dev/';
 
 	export default {
 		name: 'App',
